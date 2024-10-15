@@ -1,0 +1,11 @@
+# Totalmente opcional
+# Apenas use "docker compose up" na linha de comando e pronto! servidor rodando em http://localhost:8080
+services:
+  web:
+    image: php:8.3-apache
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/var/www/html
+      
+    entrypoint: ["/bin/bash", "-c", "php forja migrar && php forja iniciar 0.0.0.0:8080"] # iniciando o servidor em 0.0.0.0:8080 para que possa ser acessado fora do container
