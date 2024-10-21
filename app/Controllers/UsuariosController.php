@@ -31,6 +31,7 @@ class UsuariosController extends Controller
 
     public function login()
     {
+        dd($this->dadosPost());
         $usuario = $this->usuarios->autenticar(...$this->dadosPost());
 
         if (!$usuario) {

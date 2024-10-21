@@ -2,8 +2,12 @@
     <div class="card shadow-lg p-4" style="max-width: 400px; width: 100%;">
         <div class="card-body">
             <!-- <h1 class="card-title text-center mb-4 fs-4">Minha Agenda Capitalista</h1> -->
-            <h2 class="card-title text-center mb-4">Login</h2>
-            <form action="<?=url_base('login')?>" method="POST">
+            <h2 class="card-title text-center mb-4">Cadastro</h2>
+            <form action="<?=base_url('cadastro')?>" method="POST">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Como nos referimos à você?" required>
+                    <label for="nome">Primeiro nome/apelido</label>
+                </div>
                 <div class="form-floating mb-3">
                     <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email" required>
                     <label for="email">Email</label>
@@ -24,10 +28,6 @@
             </form>
         </div>
         <div class="text-center mt-3 mb-2">
-            <a href="<?=base_url('cadastro')?>" class="text-muted">Não tem conta? Cadastre-se</a>
-        </div>
-        <div class="text-center mt-3 mb-2">
-            <!-- TODO: Enviar email para alterar senha -->
             <a href="#" class="text-muted">Esqueceu sua senha?</a>
         </div>
     </div>

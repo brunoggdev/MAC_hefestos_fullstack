@@ -10,7 +10,7 @@ use App\Entidades\Usuario;
  * Carrega a view informada com o header e footer padrão 
  * além das modais e js específicos
 */
-function montarPagina(string $nome_da_view, array $dados = []):string
+function pagina(string $nome_da_view, array $dados = []):string
 {
     return comp('header', ['titulo' => extrair_item('titulo', $dados)])
         .view($nome_da_view, $dados)
@@ -26,4 +26,13 @@ function montarPagina(string $nome_da_view, array $dados = []):string
 function usuario(): ?Usuario
 {
     return sessao()->pegar('usuario');
+}
+
+
+/**
+ * Alias para url_base
+ */
+function base_url(string $caminho_extra = ''): string
+{
+    return url_base($caminho_extra);
 }
