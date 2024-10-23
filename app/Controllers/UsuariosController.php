@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Entidades\Usuario;
+use App\MAC\Autenticacao\Autenticacao;
 use App\Models\UsuariosModel;
 use Hefestos\Core\Controller;
 
@@ -38,27 +38,17 @@ class UsuariosController extends Controller
             return redirecionar('/login')->com('erro', 'Email ou senha inválidos');
         }
 
-        if (isset($dados_form['lembrar'])) {
-            $this->lembrarUsuario($usuario);
-        }
-
-        sessao()->guardar('usuario', $usuario);
-        sessao()->regenerarId();
+        Autenticacao::login($usuario, isset($dados_form['lembrar']));
 
         return redirecionar('/home');
     }
 
 
     /**
-     * Gera e guarda token de lembrete do usuario
+     * Desloga o usuário e remove o token de lembrança
      */
-    private function lembrarUsuario(Usuario $usuario): void
+    public function deslogar()
     {
-        $token = bin2hex(random_bytes(32));
-
-        $this->usuarios->lembrar($usuario, $token);
-        
-        // cookike expira em 30 dias
-        setcookie('lembrar', $token, time() + (86400 * 30), "/");
+        Autenticacao::logout();
     }
 }

@@ -9,6 +9,7 @@ class UsuariosModel extends Model
 {
     // tabela do banco de dados ao qual o model está relacionado
     protected string $tabela = 'usuarios';
+    protected string $retorno_padrao = Usuario::class;
 
 
     /**
@@ -19,13 +20,11 @@ class UsuariosModel extends Model
     {
         $usuario = $this->primeiroOnde('email', $email);
 
-        if (!$usuario || !password_verify($senha, $usuario['senha'])) {
+        if (!$usuario || !password_verify($senha, $usuario->senha)) {
             return false;
         }
-
-        unset($usuario['senha']);
         
-        return new Usuario($usuario);
+        return $usuario;
     }
 
 
@@ -35,6 +34,24 @@ class UsuariosModel extends Model
      */
     public function lembrar(Usuario $usuario, string $token): void
     {
-        $this->update(['lembrar' => $token], $usuario->id);
+        $this->update(['lembrar_token' => hash('sha256', $token)], $usuario->id);
+    }
+
+    /**
+     * Salva o token de lembrete do usuario informado
+     * @author Brunoggdev
+     */
+    public function esquecer(Usuario $usuario): void
+    {
+        $this->update(['lembrar_token' => null], $usuario->id);
+    }
+
+
+    /**
+     * Retorna, se existir, o usuário com o token de lembrança informado
+     */
+    public function usuarioLembrado(string $token):Usuario
+    {
+        return $this->primeiroOnde('lembrar_token', hash('sha256', $token));
     }
 }

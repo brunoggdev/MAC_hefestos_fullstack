@@ -10,6 +10,7 @@ class Usuario implements Entidade
 {
     public int $id;
     public string $nome;
+    public string $senha;
     public string $email;
     public array $permissoes;
     public DateTime $criado_em;
@@ -21,6 +22,7 @@ class Usuario implements Entidade
      * @param array{
      *     id: int,
      *     nome: string,
+     *     senha: ?string,
      *     email: string,
      *     permissoes: array|json,
      *     criado_em: DateTime|string,
@@ -32,6 +34,7 @@ class Usuario implements Entidade
     {
         $this->id = (int) $dados['id'] ?? null;
         $this->nome = $dados['nome'] ?? null;
+        $this->senha = $dados['senha'] ?? null;
         $this->email = $dados['email'] ?? null;
         $this->permissoes = is_string($dados['permissoes']) ? json_decode($dados['permissoes'], true) : $dados['permissoes'] ?? null;
         $this->criado_em = $dados['criado_em'] ? new DateTime($dados['criado_em']) : null;
