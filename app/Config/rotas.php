@@ -7,6 +7,7 @@ Rota::get('/', fn() => pagina('login'));
 Rota::get('/login', fn() => pagina('login'));
 Rota::get('/cadastro', fn() => pagina('cadastro'));
 
-Rota::post('/login', [UsuariosController::class, 'login']);
+Rota::post('/login', [UsuariosController::class, 'logar']);
+Rota::post('/cadastro', [UsuariosController::class, 'cadastrar']);
 
 Rota::get('/home', [UsuariosController::class, 'index']);

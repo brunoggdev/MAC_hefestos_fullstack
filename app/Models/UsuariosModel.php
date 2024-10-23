@@ -30,11 +30,11 @@ class UsuariosModel extends Model
 
 
     /**
-     * Retorna um array com os dados do usuario logado
+     * Salva o token de lembrete do usuario informado
      * @author Brunoggdev
      */
-    public function dadosUsuario(): array
+    public function lembrar(Usuario $usuario, string $token): void
     {
-        return $this->buscar(usuario()->id);
+        $this->update(['lembrar' => $token], $usuario->id);
     }
 }

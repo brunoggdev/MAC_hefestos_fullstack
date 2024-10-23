@@ -6,7 +6,7 @@ arquivo ".env" que você deve encontrar em projetos.
 
 const AMBIENTE = 'desenvolvimento'; //desenvolvimento ou producao
 
-const URL_BASE = 'localhost:8080';
+const URL_BASE = '192.168.0.9:8080';
 
 const VERSAO_APP = '0.0.0';
 
