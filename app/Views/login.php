@@ -12,6 +12,11 @@
                     <input type="password" class="form-control" id="password" name="senha" placeholder="Digite sua senha" required>
                     <label for="password">Senha</label>
                 </div>
+                <?php if(sessao()->tem('erro')): ?>
+                    <div class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-square-fill"></i> <?=sessao('erro')?>
+                    </div>
+                <?php endif; ?>
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" value="1" id="remember" name="lembrar">
                     <label class="form-check-label" for="remember">
