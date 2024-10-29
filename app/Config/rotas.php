@@ -10,4 +10,4 @@ Rota::get('/cadastro', fn() => pagina('cadastro'));
 Rota::post('/login', [UsuariosController::class, 'logar']);
 Rota::post('/cadastro', [UsuariosController::class, 'cadastrar']);
 
-Rota::get('/home', [UsuariosController::class, 'index']);
+Rota::get('/home', fn() => dd(usuario()) );

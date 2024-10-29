@@ -35,6 +35,9 @@
             </form>
         </div>
         <div class="text-center mt-3 mb-2">
+            <a href="<?=base_url('login')?>" class="text-muted">Já tem uma conta? Faça login</a>
+        </div>
+        <div class="text-center mt-3 mb-2">
             <a href="#" class="text-muted">Esqueceu sua senha?</a>
         </div>
     </div>

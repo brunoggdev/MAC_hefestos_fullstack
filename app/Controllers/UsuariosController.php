@@ -16,8 +16,12 @@ class UsuariosController extends Controller
 
     public function cadastrar()
     {
-        $usuario = $this->dadosPost();
         // TODO: Validar dados
+        $usuario = [
+            'nome' => $this->dadosPost('nome'),
+            'email' => $this->dadosPost('email'),
+            'senha' => encriptar($this->dadosPost('senha')),
+        ];
 
         $id_inserido = $this->usuarios->insert($usuario);
 
@@ -25,13 +29,13 @@ class UsuariosController extends Controller
             return redirecionar('/cadastro')->com('erro', 'Tivemos um erro durante o cadastro. Tente novamente.');
         }
 
-        $this->logar();
+        return $this->logar();
     }
 
 
     public function logar()
     {
-        $dados_form = $this->dadosPost();
+        $dados_form = $this->dadosPost(['email', 'senha']);
         $usuario = $this->usuarios->autenticar(...$dados_form);
 
         if (!$usuario) {

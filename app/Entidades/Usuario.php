@@ -2,20 +2,19 @@
 
 namespace App\Entidades;
 
-use App\Models\UsuariosModel;
-use DateTime;
+use DateTimeImmutable;
 use Hefestos\Core\Entidade;
 
 class Usuario implements Entidade
 {
-    public int $id;
-    public string $nome;
-    public string $senha;
-    public string $email;
-    public array $permissoes;
-    public DateTime $criado_em;
-    public DateTime $editado_em;
-    public bool $logado = false;
+    public ?int $id;
+    public ?string $nome;
+    public ?string $senha;
+    public ?string $email;
+    public ?array $permissoes;
+    public ?DateTimeImmutable $criado_em;
+    public ?DateTimeImmutable $editado_em;
+    public ?bool $logado = false;
 
     /**
      * Cria um novo objeto de Usuario
@@ -37,8 +36,8 @@ class Usuario implements Entidade
         $this->senha = $dados['senha'] ?? null;
         $this->email = $dados['email'] ?? null;
         $this->permissoes = is_string($dados['permissoes']) ? json_decode($dados['permissoes'], true) : $dados['permissoes'] ?? null;
-        $this->criado_em = $dados['criado_em'] ? new DateTime($dados['criado_em']) : null;
-        $this->editado_em = $dados['editado_em'] ? new DateTime($dados['editado_em']) : null;
+        $this->criado_em = $dados['criado_em'] ? new DateTimeImmutable($dados['criado_em']) : null;
+        $this->editado_em = $dados['atualizado_em'] ? new DateTimeImmutable($dados['atualizado_em']) : null;
     }
 
     public function chavePrimaria(): string

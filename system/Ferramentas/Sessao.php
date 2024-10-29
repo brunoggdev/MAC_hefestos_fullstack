@@ -34,7 +34,7 @@ class Sessao
      * Pega um item da sessão, retorna null caso não exista
      * @author Brunoggdev
      */
-    public static function pegar(string $chave, $higienizar = true): mixed
+    public static function pegar(string $chave, $higienizar = false): mixed
     {
         $retorno = dot_notation($chave, $_SESSION);
 
