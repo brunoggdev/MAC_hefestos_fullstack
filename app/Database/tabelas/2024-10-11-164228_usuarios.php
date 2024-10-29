@@ -7,6 +7,7 @@ return ( new Tabela('usuarios') )
     ->string('nome')
     ->string('email')
     ->string('senha')
+    ->text('lembrar_token')
     ->json('permissoes')
     ->datetime('criado_em')
     ->datetime('atualizado_em');
