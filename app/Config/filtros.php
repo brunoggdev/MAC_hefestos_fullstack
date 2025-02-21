@@ -6,5 +6,5 @@ que deve ser utilizada nesse filtro (com namespace completo).
 ---------------------------------------------------------------------- */
 
 return [
-
+    'logado' => App\Filtros\UsuarioLogado::class,
 ];

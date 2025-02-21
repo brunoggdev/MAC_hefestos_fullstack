@@ -443,7 +443,7 @@ function requisicao_post(string $endpoint, array|string $dados): ClienteHttp
  * @link https://www.php.net/manual/en/function.strip-tags.php Mais informações sobre strip_tags.
  * @author Brunoggdev
  */
-function higienizar(null|string|array $param): null|string|array
+function higienizar(mixed $param): mixed
 {
 
     if (is_null($param)) {
