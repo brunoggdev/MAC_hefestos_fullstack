@@ -53,8 +53,21 @@
 
     // Function to change the Bootswatch theme
     const changeBootswatchTheme = (theme) => {
-        bootswatchLink.href = `https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/${theme}/bootstrap.min.css`
-        localStorage.setItem('bootswatch-theme', theme)
+        const newHref = `https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/${theme}/bootstrap.min.css`
+    
+        // Create a temp link to preload the new theme
+        const tempLink = document.createElement('link')
+        tempLink.rel = 'stylesheet'
+        tempLink.href = newHref
+        tempLink.onload = () => {
+            bootswatchLink.href = newHref
+            localStorage.setItem('bootswatch-theme', theme)
+            setTimeout(() => {
+                tempLink.remove() // clean up
+            }, 200);
+        }
+    
+        document.head.appendChild(tempLink)
     }
 
     // Initialize the Bootswatch theme based on the stored preference or default to 'lumen'
