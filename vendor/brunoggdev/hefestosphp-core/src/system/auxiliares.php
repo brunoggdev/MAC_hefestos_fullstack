@@ -9,6 +9,7 @@ use Hefestos\Ferramentas\ClienteHttp;
 use Hefestos\Rotas\Redirecionar;
 use Hefestos\Ferramentas\Colecao;
 use Hefestos\Ferramentas\Sessao;
+use Hefestos\Ferramentas\Validador;
 use Hefestos\Rotas\Requisicao;
 
 /* ----------------------------------------------------------------------
@@ -123,16 +124,16 @@ function dd(mixed ...$params)
 
     $chamada = "$chamada[file]:$chamada[line]";
 
-    echo $terminal ? $chamada : '<pre style="margin-bottom: 18px;background: gray;padding: 8px;display: block;font-size: 12.05px;white-space: pre-wrap;word-wrap: break-word;color: white;font-family: Menlo,Monaco,Consolas,\'Courier New\',monospace;"></span> <strong>'.$chamada.'</strong></pre>';
+    echo $terminal ? $chamada : '<pre style="margin-bottom: 18px;background: gray;padding: 8px;display: block;font-size: 12.05px;white-space: pre-wrap;word-wrap: break-word;color: white;font-family: Menlo,Monaco,Consolas,\'Courier New\',monospace;"></span> <strong>' . $chamada . '</strong></pre>';
 
-    echo  $terminal ? PHP_EOL.PHP_EOL : '';
+    echo $terminal ? PHP_EOL . PHP_EOL : '';
 
     foreach ($params as $param) {
         if (is_string($param)) {
             $param = htmlspecialchars($param, ENT_QUOTES, 'UTF-8');
         }
         var_dump($param);
-        echo  $terminal ? PHP_EOL . PHP_EOL : '<br><hr><br>';
+        echo $terminal ? PHP_EOL . PHP_EOL : '<br><hr><br>';
     }
 
     exit;
@@ -144,15 +145,37 @@ function dd(mixed ...$params)
 
 /**
  * Retorna a variável de ambiente desejada ou o valor informado como padrão
+ * @throws Exception
  * @author Brunoggdev
  */
-function env(string $chave_desejada, mixed $retorno_padrao = 'jogar_excecao') {
-    return getenv($chave_desejada, true) 
-        ?: getenv($chave_desejada) 
-        ?: $_ENV[$chave_desejada] 
-        ?? $_SERVER[$chave_desejada] 
-        ?? config("env.$chave_desejada")
-        ?? ($retorno_padrao === 'jogar_excecao' ? throw new Exception("A variável de ambiente '$chave_desejada' não foi encontrada.") : $retorno_padrao);
+function env(string $chave_desejada, mixed $retorno_padrao = 'jogar_excecao'): mixed
+{
+    $env = $_ENV[$chave_desejada] ?? $_SERVER[$chave_desejada] ?? getenv($chave_desejada);
+
+    // Se não encontrar no servidor, buscar no arquivo de configuração
+    if ($env === false) {
+        try {
+            $env = config("env.$chave_desejada");
+        } catch (\Throwable $th) {
+            $env = null;
+        }
+    }
+
+    // Se ainda não encontrar, retornar o valor padrão informado ou lançar exceção
+    if ($env === null) {
+        return $retorno_padrao !== 'jogar_excecao'
+            ? $retorno_padrao
+            : throw new Exception("A variável de ambiente '$chave_desejada' não foi encontrada.");
+    }
+
+    // Convertendo booleanos 
+    return match (strtolower($env)) {
+        'true'  => true,
+        'false' => false,
+        'empty' => '',
+        'null'  => null,
+        default => $env,
+    };
 }
 
 
@@ -224,7 +247,7 @@ function view(string $nome_view, ?array $dados = []): string
     $view = "Views/$nome_view.php";
     match (true) {
         is_file($arquivo = PASTA_RAIZ . "app/$view") => require $arquivo,
-        is_file($arquivo = PASTA_RAIZ . "system/$view") => require $arquivo,
+        is_file($arquivo = PASTA_RAIZ . "vendor/brunoggdev/hefestosphp-core/src/system/$view") => require $arquivo,
         default => throw new Exception("View '$nome_view' não encontrada.")
     };
 
@@ -443,7 +466,7 @@ function requisicao_post(string $endpoint, array|string $dados): ClienteHttp
  * @link https://www.php.net/manual/en/function.strip-tags.php Mais informações sobre strip_tags.
  * @author Brunoggdev
  */
-function higienizar(mixed $param): mixed
+function higienizar(null|string|array $param): null|string|array
 {
 
     if (is_null($param)) {
@@ -521,6 +544,20 @@ function url_contem(string $parte): bool
 function requisicao(): Requisicao
 {
     return Requisicao::instancia();
+}
+
+
+
+
+
+
+
+/**
+ * Atalho para acessar o validador
+ */
+function validador(): Validador
+{
+    return Validador::instancia();
 }
 
 

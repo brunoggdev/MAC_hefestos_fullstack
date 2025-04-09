@@ -1,6 +1,6 @@
 <?php
 
-define('PASTA_RAIZ', __DIR__ . '/../');
+defined('PASTA_RAIZ') or define('PASTA_RAIZ', __DIR__ . '/../../../../../');
 define('PASTA_PUBLIC', PASTA_RAIZ . 'public/');
 
 
