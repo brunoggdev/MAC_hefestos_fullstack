@@ -19,7 +19,7 @@ class UsuariosController extends Controller
         // TODO: Validar dados
         $usuario = [
             'nome' => $this->dadosPost('nome'),
-            'email' => $this->dadosPost('email'),
+            'email' => trim($this->dadosPost('email')),
             'senha' => encriptar($this->dadosPost('senha')),
         ];
 
@@ -35,8 +35,12 @@ class UsuariosController extends Controller
 
     public function logar()
     {
-        $dados_form = $this->dadosPost(['email', 'senha']);
-        $usuario = $this->usuarios->autenticar(...$dados_form);
+        $usuario = [
+            'email' => trim($this->dadosPost('email')),
+            'senha' => $this->dadosPost('senha'),
+        ];
+
+        $usuario = $this->usuarios->autenticar(...$usuario);
 
         if (!$usuario) {
             return redirecionar('/login')->com('erro', 'Email ou senha inválidos');
