@@ -23,7 +23,7 @@ class UsuariosModel extends Model
         if (!$usuario || !password_verify($senha, $usuario->senha)) {
             return false;
         }
-        
+
         return $usuario;
     }
 
@@ -37,6 +37,7 @@ class UsuariosModel extends Model
         $this->update(['lembrar_token' => hash('sha256', $token)], $usuario->id);
     }
 
+    
     /**
      * Salva o token de lembrete do usuario informado
      * @author Brunoggdev
@@ -50,7 +51,7 @@ class UsuariosModel extends Model
     /**
      * Retorna, se existir, o usuário com o token de lembrança informado
      */
-    public function usuarioLembrado(string $token):Usuario
+    public function usuarioLembrado(string $token): Usuario
     {
         return $this->primeiroOnde('lembrar_token', hash('sha256', $token));
     }
